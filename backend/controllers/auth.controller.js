@@ -56,6 +56,10 @@ export const login = async (req,res)=>{
         const user = await User.findOne({username});
         const isPassword = await bycryptjs.compare(password,user?.password || "");
 
+
+
+
+        
         if(!user || !isPassword){
             return res.status(400).json({error: "Invalid username or password"});
         }
