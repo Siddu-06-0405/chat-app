@@ -26,7 +26,7 @@ export const signup = async (req,res)=>{
 
         const newUser = new User({
             fullName, username, 
-            password: hashedPassword,
+            password,
             gender, profilePic: gender === 'male' ? boyProfilePic:girlProfilePic
         });
 
@@ -54,13 +54,8 @@ export const login = async (req,res)=>{
     try {
         const {username,password} = req.body;
         const user = await User.findOne({username});
-        const isPassword = await bycryptjs.compare(password,user?.password || "");
-
-
-
-
         
-        if(!user || !isPassword){
+        if(!user || password !== user.password){
             return res.status(400).json({error: "Invalid username or password"});
         }
 
